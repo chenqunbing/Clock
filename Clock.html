@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>canvas行走的时钟</title>
+		
+	</head>
+	<body>
+		<canvas id="block" width="420" height="420"></canvas>
+		<script type="text/javascript">
+			var canvas=document.getElementById("block");
+			var ctx=canvas.getContext('2d');
+			var img=new Image();
+			img.src='下载.jpg';
+			img.onload=function(){
+				run();
+				setInterval(run,1000);
+				function run(){
+					ctx.drawImage(img,0,0,420,420);
+					for(var i=0;i<60;i++){
+						ctx.save();
+						ctx.beginPath();
+						ctx.translate(210,210);
+						ctx.strokeStyle='blue';
+						ctx.lineWidth=5;
+						ctx.rotate(i*6*Math.PI/180);
+						ctx.moveTo(0,-200);
+						ctx.lineTo(0,-195);
+						ctx.stroke();
+						ctx.closePath();
+						ctx.restore();
+					}
+					for(var i=0;i<12;i++){
+						ctx.save();
+						ctx.beginPath();
+						ctx.translate(210,210);
+						ctx.strokeStyle='red';
+						ctx.lineWidth=5;
+						ctx.rotate(i*30*Math.PI/180);
+						ctx.moveTo(0,-200);
+						ctx.lineTo(0,-190);
+						ctx.stroke();
+						ctx.closePath();
+						ctx.restore();
+					}
+					
+					var time=new Date();
+					var hour=time.getHours()>12?hour-12:hour;
+					var min=time.getMinutes();
+					var sec=time.getSeconds();
+					
+					/*时针*/
+					ctx.save();
+					ctx.beginPath();
+					ctx.translate(210,210);
+					ctx.rotate(min*Math.PI/360 + hour*Math.PI/6);
+					ctx.moveTo(0,0);
+					ctx.lineTo(0,-100);
+					ctx.strokeStyle="black";
+					ctx.lineWidth=9;
+					ctx.stroke();
+					ctx.closePath();
+					ctx.restore();
+					/*分针*/
+					ctx.save();
+					ctx.beginPath();
+					ctx.translate(210,210);
+					ctx.rotate(sec*Math.PI/1800 + min*Math.PI/30);
+					ctx.moveTo(0,0);
+					ctx.lineTo(0,-140);
+					ctx.strokeStyle="black";
+					ctx.lineWidth=7;
+					ctx.stroke();
+					ctx.closePath();
+					ctx.restore();
+					/*秒针*/
+					ctx.save();
+					ctx.beginPath();
+					ctx.translate(210,210);
+					ctx.rotate(sec*Math.PI/30);
+					ctx.moveTo(0,0);
+					ctx.lineTo(0,-180);
+					ctx.strokeStyle="black";
+					ctx.lineWidth=5;
+					ctx.stroke();
+					ctx.closePath();
+					ctx.restore();
+					}
+			}
+			
+			ctx.arc(210,210,200,0,2*Math.PI);
+			ctx.clip();
+			
+
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
